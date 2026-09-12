@@ -11,8 +11,14 @@ public class Carta {
 
     private int indice;
 
+    
     public Carta(Random r) {
         indice = r.nextInt(52) + 1;
+    }
+
+    
+    public Carta(int indice) {
+        this.indice = indice;
     }
 
     public void mostrar(JPanel pnl, int x, int y) {
@@ -22,7 +28,7 @@ public class Carta {
         lbl.setBounds(x, y, imgCarta.getIconWidth(), imgCarta.getIconHeight());
         pnl.add(lbl);
 
-        // evento para mostrar la identidad de la carta (Nombre y Pinta)
+        // Evento para mostrar la identidad de la carta (Nombre y Pinta)
         lbl.addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent evento) {
                 JOptionPane.showMessageDialog(null, getNombre() + " de " + getPinta());
@@ -38,15 +44,16 @@ public class Carta {
             return Pinta.PICA;
         } else if (indice <= 39) {
             return Pinta.CORAZON;
-        } else
+        } else {
             return Pinta.DIAMANTE;
+        }
     }
 
     public NombreCarta getNombre() {
         int residuo = indice % 13;
-        if (residuo == 0)
+        if (residuo == 0) {
             residuo = 13;
+        }
         return NombreCarta.values()[residuo - 1];
     }
-
 }
