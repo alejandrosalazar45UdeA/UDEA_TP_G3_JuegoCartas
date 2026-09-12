@@ -1,5 +1,4 @@
 import java.util.Random;
-
 import javax.swing.JPanel;
 
 public class Jugador {
@@ -23,39 +22,51 @@ public class Jugador {
         for (Carta carta : cartas) {
             posicionX -= DISTANCIA;
             carta.mostrar(pnl, posicionX, MARGEN);
-            System.out.println(carta.getNombre() + " de " + carta.getPinta());
         }
         pnl.repaint();
-
     }
 
     public String getGrupos() {
-        String respuesta = "No se encontraron grupos";
-
-        // arreglo de contadores de cartas por el nombre
+        // Arreglo de contadores para cada nombre de carta (AS, DOS, TRES, etc.)
         int[] contadores = new int[NombreCarta.values().length];
 
-        boolean hayGrupos = false;
+        // 1. Llenar contadores de repeticiones
         for (Carta carta : cartas) {
-            int posicion = carta.getNombre().ordinal();
-            contadores[posicion]++;
-            if (!hayGrupos && contadores[posicion] >= 2)
-                hayGrupos = true;
-        }
-
-        if (hayGrupos) {
-            respuesta = "Se encontraron los siguientes grupos:\n";
-            for (int i=0;i<contadores.length;i++) {
-            //for (int contador : contadores) {
-                //if (contador >= 2) {
-                if (contadores[i] >= 2) {
-                    //respuesta += Grupo.values()[contador] + " de "+ NombreCarta.values()[] + "\n";
-                    respuesta += Grupo.values()[contadores[i]] + " de "+ NombreCarta.values()[i] + "\n";
-                }
+            if (carta != null) {
+                int posicion = carta.getNombre().ordinal();
+                contadores[posicion]++;
             }
         }
 
-        return respuesta;
-    }
+        // 2. Construir el mensaje de respuesta
+        String respuesta = "Se encontraron los siguientes grupos:\n";
+        boolean hayGrupos = false;
 
+        for (int i = 0; i < contadores.length; i++) {
+            int cantidad = contadores[i];
+
+            if (cantidad >= 2) {
+                hayGrupos = true;
+                
+                // Determinamos el nombre del grupo según las repeticiones
+                String nombreGrupo = "";
+                switch (cantidad) {
+                    case 2: nombreGrupo = "PAR"; break;
+                    case 3: nombreGrupo = "TERNA"; break;
+                    case 4: nombreGrupo = "CUARTA"; break;
+                    case 5: nombreGrupo = "QUINTA"; break;
+                    default: nombreGrupo = "GRUPO DE " + cantidad; break;
+                }
+
+                String nombreCarta = NombreCarta.values()[i].name();
+                respuesta += nombreGrupo + " de " + nombreCarta + "\n";
+            }
+        }
+
+        if (!hayGrupos) {
+            respuesta = "No se encontraron grupos";
+        }
+
+        return respuesta; 
+    }
 }
