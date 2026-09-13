@@ -50,7 +50,7 @@ public class FrmJuego extends JFrame {
     private void repartir() {
         Random r = new Random();
        
-        Baraja baraja = new Baraja(3); 
+        Baraja baraja = new Baraja(1); 
 
         jugador1.repartir(baraja, r);
         jugador2.repartir(baraja, r);
